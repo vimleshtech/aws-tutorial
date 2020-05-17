@@ -1,0 +1,92 @@
+Today's SQL Topics:
+======================
+-Union  : to merge two or more than two tables vertically 
+     -Table structure should be same  
+     Example:
+	 Table: Employee_2017
+   	 eid name gender ...
+	 1  nitin ....
+	 2  jatin ....
+
+	 Table : Employee_2019
+	 eid name gender
+	 100  raman ..
+	 2  jatin .... 	
+		
+
+    SQL :
+		select * from Employee_2017
+		union 
+		select * from Employee_2019;
+
+   Output:
+		eid name gender
+		 1   nitin ..
+		 2    ....
+		 100 .....
+
+
+
+   There are following types of union:
+   i. union          : return unique rows 
+   ii. union all     : return all rows 	 
+	
+-Join   : to merge two or more than two tables horizentally 
+     -At least one column should be same in both the tables/sources 
+     There are following types of join:
+	i. inner join   : return common or matching rows 
+	ii. outer join   : return all rows 
+		a. left join  : return all rows from left table and matching from right table
+		b. right join : return all rows from right table and matching from left table
+
+	Other types of join:
+		i. self join 
+		ii. clartisan product/cross join 
+
+ 
+	Example:
+	Table: Employee
+	eid name gender
+	1  nitin  male
+	2 monika  female
+	3 jyoti   female
+
+
+	Table: salary
+	emp_code  hra da msal 
+        2         7777 666 666666
+	3         7 77777 777777
+	4        8887  777777 777655 
+
+	
+	SQL:
+	select employee.eid, employee.name, employee.gender, salary.hra, salary.da 
+	from employee  inner join salary 
+		on employee.eid  = salary.emp_code;
+ 
+	
+
+	output:
+	eid name gender hra da
+	2    monika female 7777 666
+	3   ...   ..... 
+
+
+Q. create table 
+	customer
+	cid  name 
+
+	product
+	pid pname puchase_price sale_pice
+
+
+	sales_order
+	oid  cid pid qty date  
+	1    2   10  2    ...
+	2    5   1   10  ....
+
+
+	output:
+	oid  cust_name  pname  qty sale_price 
+
+	

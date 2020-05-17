@@ -1,0 +1,67 @@
+Prerequisites
+
+Verify that the virtual machine is not encrypted. You cannot export an encrypted virtual machine to OVF format.
+Verify that the virtual machine is powered off.
+Procedure
+
+Select the virtual machine and select File > Export to OVF.
+Enter a name for the OVF file and specify a directory in which to save it.
+Specify whether to export the virtual machine as an OVF, a folder with separate files, or as an OVA, a single-file archive.
+Click Export to start the OVF export process.
+The export process can take several minutes. A status bar indicates the progress of the export process.
+
+https://docs.aws.amazon.com/server-migration-service/latest/userguide/server-migration.html
+
+
+To set up the connector for a VMware environment
+
+Open the AWS Server Migration Service console and choose Connectors, SMS Connector setup guide.
+
+On the AWS Server Migration Connector setup page, choose Download OVA to download the connector for VMware environments. You can also download the connector using the URL provided. The connector is a preconfigured FreeBSD VM in OVA format that is ready for deployment in your vCenter.
+
+Set up your vCenter service account. Create a vCenter user with permissions necessary to create and delete snapshots on VMs that need be migrated to AWS and download their delta disks.
+
+Note
+
+As a best practice, we recommend that you limit vCenter permissions for the connector service account to only those vCenter data centers that contain the VMs that you intend to migrate. We also recommend that you lock down your vCenter service account permissions by assigning this user the NoAccess role in vCenter on the hosts, folders, and datastores that do not have any VMs for migration.
+
+Create a role in vCenter with the following privileges:
+
+Datastore > Browse datastore and Low level file operations (Datastore.Browse and Datastore.FileManagement)
+
+Host > Configuration > System Management (Host.Config.SystemManagement)
+
+vApp > Export (VApp.Export)
+
+Virtual Machine > Snapshot management > Create snapshot and Remove Snapshot (VirtualMachine.State.CreateSnapshot and VirtualMachine.State.RemoveSnapshot)
+
+Assign the role as follows:
+
+Assign this vCenter role to the service account for the connector to use to log in to vCenter.
+
+Assign this role with propagating permissions to the data centers that contain the VMs to migrate.
+
+To manually verify your vCenter service account’s permissions, verify that you can log in to vSphere Client with your connector service account credentials. Then, export your VMs as OVF templates, use the datastore browser to download files off the datastores that contain your VMs, and view the properties on the Summary tab of the ESXi hosts of your VMs.
+
+To configure the connector
+
+Deploy the connector OVA downloaded in the previous procedure to your VMware environment using vSphere Client.
+
+Open the connector's virtual machine console and log in as ec2-user with the password ec2pass. Supply a new password if prompted.
+
+Obtain the IP address of the connector as follows:
+
+Run the command sudo setup.rb. This displays a configuration menu:
+
+Choose one of the following options:
+      1. Reset password
+      2. Reconfigure network settings
+      3. Restart services
+      4. Factory reset
+      5. Delete unused upgrade-related files
+      6. Enable/disable SSL certificate validation
+      7. Display connector's SSL certificate
+      8. Generate log bundle
+      0. Exit
+Please enter your option [1-9]:
+

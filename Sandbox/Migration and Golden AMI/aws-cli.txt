@@ -1,0 +1,58 @@
+$aws configure
+us-east-1
+json
+
+Single Local File and S3 Object Operations
+Some commands perform operations only on single files and S3 objects. The following commands are single file/object operations if no --recursive flag is provided.
+
+cp
+mv
+rm
+
+aws s3 mb s3://my-first-backup-bucket
+aws s3 cp “C:\users\my first backup.bak” s3://my-first-backup-bucket/
+
+aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
+    --exclude "*" --include "*.jpg" --include "*.txt
+
+
+To download my-first-backup.bak from S3 to the local directory we would reverse the order of the commands as follows:
+aws s3 cp s3://my-first-backup-bucket/my-first-backup.bak ./
+To delete my-first-backup.bak from your my-first-backup-bucket bucket, use the following command:
+
+
+
+Create a Bucket
+Use the s3 mb command to create a bucket. Bucket names must be globally unique and should be DNS compliant. Bucket names can contain lowercase letters, numbers, hyphens, and periods. Bucket names can start and end only with a letter or number, and cannot contain a period next to a hyphen or another period.
+
+$ aws s3 mb s3://bucket-name
+List Your Buckets
+Use the s3 ls command to list your buckets. Here are some examples of common usage.
+
+The following command lists all buckets.
+
+$ aws s3 ls
+2018-12-11 17:08:50 my-bucket
+2018-12-14 14:55:44 my-bucket2
+The following command lists all objects and folders (referred to in S3 as 'prefixes') in a bucket.
+
+$ aws s3 ls s3://bucket-name
+                           PRE path/
+2018-12-04 19:05:48          3 MyFile1.txt
+The previous output shows that under the prefix path/ there exists one file named MyFile1.txt.
+
+You can filter the output to a specific prefix by including it in the command. The following command lists the objects in bucket-name/path (that is, objects in bucket-name filtered by the prefix path/).
+
+$ aws s3 ls s3://bucket-name/path/
+2018-12-06 18:59:32          3 MyFile2.txt
+Delete a Bucket
+To remove a bucket, use the s3 rb command.
+
+$ aws s3 rb s3://bucket-name
+By default, the bucket must be empty for the operation to succeed. To remove a non-empty bucket, you need to include the --force option.
+
+The following example deletes all objects and subfolders in the bucket and then removes the bucket.
+
+$ aws s3 rb s3://bucket-name --force
+
+aws s3 rm s3://my-first-backup-bucket/my-first-backup.bak
